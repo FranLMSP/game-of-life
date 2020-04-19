@@ -12,7 +12,7 @@ bg = 25, 25, 25
 screen.fill(bg)
 
 # Number of cells
-nxC, nyC = 25, 25
+nxC, nyC = 50, 50
 
 # Size of cells
 dimCW = width / nxC
@@ -46,6 +46,15 @@ while True:
     for event in ev:
         if event.type == pygame.KEYDOWN:
             pause = not pause
+
+        mouseClick = pygame.mouse.get_pressed()
+
+        if sum(mouseClick):
+            posX, posY = pygame.mouse.get_pos()
+
+            celX, celY = int(np.floor(posX / dimCW)), int(np.floor(posY / dimCH))
+
+            newGameState[celX, celY] = not mouseClick[2]
 
     for x in range(0, nxC):
         for y in range(0, nyC):
