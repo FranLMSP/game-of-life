@@ -17,12 +17,25 @@ nxC, nyC = 25, 25
 dimCW = width / nxC
 dimCH = height / nyC
 
+# States of cells. 1 = Alive, 0 = Death
+gameState = np.zeros((nxC, nyC))
+
 while True:
 
 
     for x in range(0, nxC):
         for y in range(0, nyC):
 
+            # Calculate tne neighbors
+            n_neigh = gameState[(x - 1) % nxC, (y - 1) % nyC] + \
+                      gameState[(x)     % nxC, (y - 1) % nyC] + \
+                      gameState[(x + 1) % nxC, (y - 1) % nyC] + \
+                      gameState[(x - 1) % nxC, (y)     % nyC] + \
+                      gameState[(x)     % nxC, (y)     % nyC] + \
+                      gameState[(x + 1) % nxC, (y)     % nyC] + \
+                      gameState[(x - 1) % nxC, (y + 1) % nyC] + \
+                      gameState[(x)     % nxC, (y + 1) % nyC] + \
+                      gameState[(x + 1) % nxC, (y + 1) % nyC]
 
 
             # The square to draw
