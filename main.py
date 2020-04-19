@@ -1,5 +1,6 @@
 import pygame
 import numpy as np
+import time
 
 pygame.init()
 
@@ -19,9 +20,19 @@ dimCH = height / nyC
 
 # States of cells. 1 = Alive, 0 = Death
 gameState = np.zeros((nxC, nyC))
+newGameState = np.zeros((nxC, nyC))
+
+
+gameState[5, 3] = 1
+gameState[5, 4] = 1
+gameState[5, 5] = 1
 
 while True:
 
+    screen.fill(bg)
+    time.sleep(0.1) # Don't burning up the CPU
+
+    newGameState = np.copy(gameState)
 
     for x in range(0, nxC):
         for y in range(0, nyC):
@@ -38,6 +49,14 @@ while True:
                       gameState[(x + 1) % nxC, (y + 1) % nyC]
 
 
+            # Rule 1: If a death cell has exacly 3 neighbors, the cell revives
+            if gameState[x, y] == 0 and n_neigh == 3:
+                newGameState[x, y] = 1
+
+            # Rule 2: If an alive cell has less than 2 neighbors and more than 3, the cell dies
+            elif gameState[x, y] == 1 and (n_neigh < 2 or n_neigh > 3):
+                newGameState[x, y] = 0
+
             # The square to draw
             polygon = [((x)   * dimCW, y * dimCH),
                        ((x+1) * dimCW, y * dimCH),
@@ -45,6 +64,14 @@ while True:
                        ((x)   * dimCW, (y+1) * dimCH)]
 
             # Draw a square with 1 pixel of width
-            pygame.draw.polygon(screen, (128, 128, 128), polygon, 1)
+            if newGameState[x, y] == 0:
+                # Black (dead) cell
+                pygame.draw.polygon(screen, (128, 128, 128), polygon, 1)
+            else:
+                # White (alive) cell
+                pygame.draw.polygon(screen, (255, 255, 255), polygon, 0)
+
+    # Update the game state
+    gameState = np.copy(newGameState)
 
     pygame.display.flip()
