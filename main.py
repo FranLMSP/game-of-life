@@ -28,6 +28,11 @@ gameState[5, 3] = 1
 gameState[5, 4] = 1
 gameState[5, 5] = 1
 
+
+gameState[5, 10] = 1
+gameState[6, 10] = 1
+gameState[7, 10] = 1
+
 while True:
 
     screen.fill(bg)
@@ -53,7 +58,6 @@ while True:
                           gameState[(x)     % nxC, (y - 1) % nyC] + \
                           gameState[(x + 1) % nxC, (y - 1) % nyC] + \
                           gameState[(x - 1) % nxC, (y)     % nyC] + \
-                          gameState[(x)     % nxC, (y)     % nyC] + \
                           gameState[(x + 1) % nxC, (y)     % nyC] + \
                           gameState[(x - 1) % nxC, (y + 1) % nyC] + \
                           gameState[(x)     % nxC, (y + 1) % nyC] + \
